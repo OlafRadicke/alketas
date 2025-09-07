@@ -44,7 +44,7 @@ func main() {
     stdout, err := cmd.Output()
     if err != nil {
         log.Fatalf("Check bao status: %v", err.Error())
-        return
+        os.Exit(1)
     }
     log.Print("==== STAUS ====\n\n")
     log.Print(string(stdout))
@@ -57,7 +57,6 @@ func main() {
         stdout, err := cmd.Output()
         if err != nil {
             log.Fatalf("Lookup token: %v", err.Error())
-            return
         }
 		log.Printf(string(stdout))
 		log.Printf("----")
@@ -72,7 +71,7 @@ func main() {
         stdout, err := cmd.Output()
         if err != nil {
             log.Fatalf("Renew token: %v", err.Error())
-            return
+            os.Exit(1)
         }
 		log.Printf(string(stdout))
 		log.Printf("----")
