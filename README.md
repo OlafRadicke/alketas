@@ -34,6 +34,8 @@ $ go build ./src/main.go
  $ podman run -it -v $(pwd)/src/tokens.yaml:/tokens.yaml:z  local-bao
 ```
 
+You find the ready builded images hier: https://hub.docker.com/repository/docker/olafradicke/alketas/general
+
 ## RUN
 
 ### CONFIGURATION FILE

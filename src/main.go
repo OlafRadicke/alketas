@@ -40,7 +40,6 @@ func main() {
 
 	for _, v := range config.Tokens {
 		log.Printf(v.Name)
-		log.Printf(v.Token)
 		log.Printf("----")
 	}
 
