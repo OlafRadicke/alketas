@@ -52,11 +52,11 @@ func main() {
 	//  bao token lookup
     log.Print("==== LOOKUP ====\n\n")
 	for _, v := range config.Tokens {
-		log.Printf(v.Name)
+		log.Fatalf("Lookup token: %v", v.Name)
         cmd := exec.Command("bao", "token", "lookup", v.Token)
         stdout, err := cmd.Output()
         if err != nil {
-            log.Fatalf("Lookup token: %v", err.Error())
+            log.Fatalf("Lookup error: %v", err.Error())
         }
 		log.Printf(string(stdout))
 		log.Printf("----")
@@ -66,11 +66,11 @@ func main() {
 	//  bao token renew
     log.Print("==== RENEW ====\n\n")
 	for _, v := range config.Tokens {
-		log.Printf(v.Name)
+		log.Fatalf("Renew token: %v", v.Name)
         cmd := exec.Command("bao", "token", "renew", "-increment=31d", v.Token)
         stdout, err := cmd.Output()
         if err != nil {
-            log.Fatalf("Renew token: %v", err.Error())
+            log.Fatalf("Renew error: %v", err.Error())
             os.Exit(1)
         }
 		log.Printf(string(stdout))
