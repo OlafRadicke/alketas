@@ -28,8 +28,9 @@ FROM golang:1.24-alpine
 ARG BAO_USER=alketas
 
 ENV VAULT_TOKEN=XXXXXXX
+ENV VAULT_RENEW_TOKENS='/alketas/confs/tokens.yaml'
 ENV VAULT_ADDR='https://openbao.XXXX.YYY.local:443'
-ENV VAULT_CACERT=root-ca.crt
+ENV VAULT_CACERT="root-ca.crt"
 ENV VAULT_SKIP_VERIFY=false
 
 COPY --from=build /bin/alketas  /bin/alketas

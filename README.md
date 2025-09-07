@@ -31,7 +31,8 @@ $ go build ./src/main.go
 
 ```bash
  $ podman build -t local-bao -f ./Dockerfile .
- $ podman run -it -v $(pwd)/src/tokens.yaml:/tokens.yaml:z  local-bao
+ $ podman run -it -v $(pwd)/examples/tokens.yaml:/alketas/confs/tokens.yaml:z \
+   local-bao
 ```
 
 You find the ready builded images hier: https://hub.docker.com/repository/docker/olafradicke/alketas/general

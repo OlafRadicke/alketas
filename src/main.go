@@ -20,9 +20,11 @@ type tokenItem struct {
 
 func (c *conf) getConf() *conf {
 
-    yamlFile, err := os.ReadFile("tokens.yaml")
+    renewTokens:= os.Getenv("VAULT_RENEW_TOKENS")
+    log.Printf("Try to open file %v", renewTokens)
+    yamlFile, err := os.ReadFile(renewTokens)
     if err != nil {
-        log.Printf("yamlFile.Get err   #%v ", err)
+        log.Printf("File err   #%v ", err)
     }
     err = yaml.Unmarshal(yamlFile, c)
     if err != nil {
@@ -37,45 +39,43 @@ func main() {
     config.getConf()
 	log.Print(config)
 
-
-	for _, v := range config.Tokens {
-		log.Printf(v.Name)
-		log.Printf("----")
-	}
-
-
-	oldToken:= os.Getenv("VAULT_TEST_TOKEN")
-	// log.Print(string(oldToken))
-
 	//  get status / connection check
 	cmd := exec.Command("bao", "status")
     stdout, err := cmd.Output()
     if err != nil {
-        log.Print(err.Error())
+        log.Fatalf("Check bao status: %v", err.Error())
         return
     }
     log.Print("==== STAUS ====\n\n")
     log.Print(string(stdout))
 
 	//  bao token lookup
-	cmd = exec.Command("bao", "token", "lookup", oldToken)
-    stdout, err = cmd.Output()
-    if err != nil {
-        log.Print(err.Error())
-        return
-    }
-    log.Print("==== LOOKUP %v ====\n\n", oldToken)
-    log.Print(string(stdout))
+    log.Print("==== LOOKUP ====\n\n")
+	for _, v := range config.Tokens {
+		log.Printf(v.Name)
+        cmd := exec.Command("bao", "token", "lookup", v.Token)
+        stdout, err := cmd.Output()
+        if err != nil {
+            log.Fatalf("Lookup token: %v", err.Error())
+            return
+        }
+		log.Printf(string(stdout))
+		log.Printf("----")
+	}
 
 
 	//  bao token renew
-	cmd = exec.Command("bao", "token", "renew", "-increment=31d", oldToken)
-    stdout, err = cmd.Output()
-    if err != nil {
-        log.Print(err.Error())
-        return
-    }
-    log.Print("==== RENEW %s ====\n\n", oldToken)
-    log.Print(string(stdout))
+    log.Print("==== RENEW ====\n\n")
+	for _, v := range config.Tokens {
+		log.Printf(v.Name)
+        cmd := exec.Command("bao", "token", "renew", "-increment=31d", v.Token)
+        stdout, err := cmd.Output()
+        if err != nil {
+            log.Fatalf("Renew token: %v", err.Error())
+            return
+        }
+		log.Printf(string(stdout))
+		log.Printf("----")
+	}
 
 }

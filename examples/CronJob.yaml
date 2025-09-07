@@ -6,6 +6,7 @@ spec:
   schedule: "*/5 * * * *"
   jobTemplate:
     spec:
+      activeDeadlineSeconds: 600
       template:
         spec:
           containers:
@@ -16,7 +17,7 @@ spec:
                 - name: VAULT_ADDR
                   value: "http://openbao.openbao:8200"
                 - name: VAULT_CACERT
-                  value: "root-ca.crt"
+                  value: "/alketas/certs/root-ca.crt"
                 - name: VAULT_SKIP_VERIFY
                   value: "false"
                 - name: VAULT_TOKEN
@@ -24,17 +25,15 @@ spec:
                     secretKeyRef:
                       name: env-token-secret
                       key: token
+                - name: VAULT_RENEW_TOKENS
+                  value: "/alketas/confs/tokens.yaml"
               volumeMounts:
                 - name: renew-tokens
-                  mountPath: "/tokens.yaml" # tokens.yaml
+                  mountPath: "/alketas/confs" # tokens.yaml
                   readOnly: true
                 - name: root-ca
-                  mountPath: "/root-ca.crt" # tokens.yaml
+                  mountPath: "/alketas/certs" # root-ca.crt
                   readOnly: true
-              # command:
-              #   - /bin/sh
-              #   - -c
-              #   - date; echo Hello from the Kubernetes cluster
 
           restartPolicy: OnFailure
           volumes:
