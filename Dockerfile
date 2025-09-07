@@ -27,7 +27,7 @@ RUN chmod o=x /bin/${BAO_USER}
 FROM golang:1.24-alpine
 ARG BAO_USER=alketas
 
-ENV VAULT_TOKEN=XXXXXXX
+ENV VAULT_TOKEN=""
 ENV VAULT_RENEW_TOKENS='/alketas/confs/tokens.yaml'
 ENV VAULT_ADDR='https://openbao.XXXX.YYY.local:443'
 ENV VAULT_CACERT="root-ca.crt"
@@ -40,5 +40,5 @@ COPY --from=build /bin/bao  /bin/bao
 RUN adduser  --system --no-create-home  ${BAO_USER}
 USER ${BAO_USER}
 WORKDIR /
-RUN /bin/alketas
+RUN ls -lah /bin/alketas
 CMD ["/bin/alketas"]
