@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: alketas
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: renew-loop
+              image: olafradicke/alketas:0.3
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: VAULT_ADDR
+                  value: "http://openbao.openbao:8200"
+                - name: VAULT_CACERT
+                  value: "root-ca.crt"
+                - name: VAULT_SKIP_VERIFY
+                  value: "false"
+                - name: VAULT_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: env-token-secret
+                      key: token
+              volumeMounts:
+                - name: renew-tokens
+                  mountPath: "/tokens.yaml" # tokens.yaml
+                  readOnly: true
+                - name: root-ca
+                  mountPath: "/root-ca.crt" # tokens.yaml
+                  readOnly: true
+              # command:
+              #   - /bin/sh
+              #   - -c
+              #   - date; echo Hello from the Kubernetes cluster
+
+          restartPolicy: OnFailure
+          volumes:
+            - name: renew-tokens
+              secret:
+                secretName: renew-tokens
+                optional: true
+            - name: root-ca
+              secret:
+                secretName: root-ca
+                optional: true
