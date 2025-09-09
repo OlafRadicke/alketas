@@ -51,6 +51,7 @@ func main() {
 	log.Print("==== LOOKUP ====\n\n")
 	for _, v := range config.Tokens {
 		log.Fatalf("Lookup token: %v", v.Name)
+		os.Setenv("VAULT_TOKEN", v.Token)
 		cmd := exec.Command("bao", "token", "lookup", v.Token)
 		stdout, err := cmd.Output()
 		if err != nil {
@@ -64,7 +65,8 @@ func main() {
 	log.Print("==== RENEW ====\n\n")
 	for _, v := range config.Tokens {
 		log.Fatalf("Renew token: %v", v.Name)
-		cmd := exec.Command("bao", "token", "renew", "-increment=31d", v.Token)
+		os.Setenv("VAULT_TOKEN", v.Token)
+		cmd := exec.Command("bao", "token", "renew", "-increment=31d")
 		stdout, err := cmd.Output()
 		if err != nil {
 			log.Fatalf("Renew error: %v", err.Error())
