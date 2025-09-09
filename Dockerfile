@@ -22,12 +22,10 @@ RUN go mod download
 RUN go build  -v -o /bin/${BAO_USER} main.go
 RUN chmod o=x /bin/${BAO_USER}
 
-
 # RUN ENV #####################################################################
 FROM golang:1.24-alpine
 ARG BAO_USER=alketas
 
-ENV VAULT_TOKEN=""
 ENV VAULT_RENEW_TOKENS='/alketas/confs/tokens.yaml'
 ENV VAULT_ADDR='https://openbao.XXXX.YYY.local:443'
 ENV VAULT_CACERT="root-ca.crt"

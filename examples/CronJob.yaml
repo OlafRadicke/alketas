@@ -22,11 +22,6 @@ spec:
                   value: "/alketas/certs/root-ca.crt"
                 - name: VAULT_SKIP_VERIFY
                   value: "false"
-                - name: VAULT_TOKEN
-                  valueFrom:
-                    secretKeyRef:
-                      name: env-token-secret
-                      key: token
                 - name: VAULT_RENEW_TOKENS
                   value: "/alketas/confs/tokens.yaml"
               volumeMounts:
