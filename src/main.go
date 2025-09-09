@@ -1,10 +1,11 @@
 package main
 
 import (
-	"gopkg.in/yaml.v2"
 	"log"
 	"os"
 	"os/exec"
+
+	"gopkg.in/yaml.v2"
 )
 
 type conf struct {
@@ -35,27 +36,16 @@ func (c *conf) getConf() *conf {
 func main() {
 	var config conf
 	config.getConf()
-	log.Print(config)
-
-	//  get status / connection check
-	cmd := exec.Command("bao", "status")
-	stdout, err := cmd.Output()
-	if err != nil {
-		log.Fatalf("Check bao status: %v", err.Error())
-		os.Exit(1)
-	}
-	log.Print("==== STAUS ====\n\n")
-	log.Print(string(stdout))
 
 	//  bao token lookup
 	log.Print("==== LOOKUP ====\n\n")
 	for _, v := range config.Tokens {
-		log.Fatalf("Lookup token: %v", v.Name)
+		log.Printf("Lookup token: %v", v.Name)
 		os.Setenv("VAULT_TOKEN", v.Token)
 		cmd := exec.Command("bao", "token", "lookup", v.Token)
 		stdout, err := cmd.Output()
 		if err != nil {
-			log.Fatalf("Lookup error: %v", err.Error())
+			log.Printf("Lookup error: %v", err.Error())
 		}
 		log.Printf(string(stdout))
 		log.Printf("----")
@@ -64,7 +54,7 @@ func main() {
 	//  bao token renew
 	log.Print("==== RENEW ====\n\n")
 	for _, v := range config.Tokens {
-		log.Fatalf("Renew token: %v", v.Name)
+		log.Printf("Renew token: %v", v.Name)
 		os.Setenv("VAULT_TOKEN", v.Token)
 		cmd := exec.Command("bao", "token", "renew", "-increment=31d")
 		stdout, err := cmd.Output()

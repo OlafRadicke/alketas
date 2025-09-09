@@ -59,5 +59,6 @@ tokens:
 
 ```bash
 $ cd src
+$ export VAULT_RENEW_TOKENS='../examples/tokens.yaml'
 $ go run ./main.go
 ```
