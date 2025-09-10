@@ -48,7 +48,6 @@ func main() {
 		if err != nil {
 			log.Printf("Lookup error: %v", err.Error())
 		}
-		log.Printf(string(stdout))
 	}
 
 	//  bao token renew
