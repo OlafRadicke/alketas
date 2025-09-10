@@ -44,7 +44,7 @@ func main() {
 		log.Printf("Lookup token: %v", v.Name)
 		os.Setenv("VAULT_TOKEN", v.Token)
 		cmd := exec.Command("bao", "token", "lookup")
-		stdout, err := cmd.Output()
+		_, err := cmd.Output()
 		if err != nil {
 			log.Printf("Lookup error: %v", err.Error())
 		}
