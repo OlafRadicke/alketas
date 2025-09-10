@@ -1,9 +1,0 @@
-# This is an example
-
-tokens:
-  - name: "group-01"
-    token: qwertyui
-  - name: "grpup-02"
-    token: asdfghjk
-  - name: "grpup-03"
-    token: zxcvbnm

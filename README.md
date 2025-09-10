@@ -27,7 +27,7 @@ The documentation is pretty poor, and I only needed one function. It would have 
 $ go build ./src/main.go
 ```
 
-### Docker image
+### Build and test Docker image
 
 ```bash
  $ podman build -t local-bao -f ./Dockerfile .
@@ -37,25 +37,15 @@ $ go build ./src/main.go
 
 You find the ready builded images hier: https://hub.docker.com/repository/docker/olafradicke/alketas/general
 
-## RUN
+## RUN / DEPLOY IN KUBERNETES
 
-### CONFIGURATION FILE
+You find a configuration example in th directory `/examples` for a `CronJob`-Deployment and the needed `Secret`s. Changed and enter:
 
-In this format:
-
-```yaml
-# This is an example
-
-tokens:
-  - name: "group-01"
-    token: qwertyui
-  - name: "grpup-02"
-    token: asdfghjk
-  - name: "grpup-03"
-    token: zxcvbnm
+```bash
+$ kubectl apply -n <my-namespace> -f /examples
 ```
 
-### RUN AS SCRIPT (DEV/TEST)
+### RUN AS SCRIPT FOR DEV/TEST
 
 ```bash
 $ cd src
