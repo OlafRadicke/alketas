@@ -62,3 +62,7 @@ $ cd src
 $ export VAULT_RENEW_TOKENS='../examples/tokens.yaml'
 $ go run ./main.go
 ```
+
+## DEBUGGING
+
+For security reasons, the CronJob logs very little. To efficiently search for sources of error, there is in `examples` a [manifest](examples/Pod-alketas-debug.yaml) for a debug pod that you can log into and use interactively.
